@@ -6,8 +6,11 @@ import { Link } from "wouter";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import { useTheme } from "@/contexts/ThemeContext";
 
 const logoAsset = "/manus-storage/SENTECNEWWHITELOGO_2ba86ec2.webp";
+const lightLogoAsset = "/manus-storage/SENTECNEWLOGO_b206fe12.webp";
 
 const links = [
   { label: "Home", href: "/" },
@@ -21,15 +24,18 @@ const links = [
 
 export function SiteNav() {
   const [open, setOpen] = useState(false);
+  const { theme } = useTheme();
+  const activeLogo = theme === "light" ? lightLogoAsset : logoAsset;
   return (
     <header className="site-nav page-nav">
       <Link href="/" className="brand-lockup" onClick={() => setOpen(false)}>
-        <img src={logoAsset} alt="SENTEC" />
+        <img src={activeLogo} alt="SENTEC" />
         <span>SENTEC<span className="brand-dot">.</span></span>
       </Link>
       <nav className={open ? "nav-links is-open" : "nav-links"} aria-label="Primary navigation">
         {links.map((link) => <Link key={link.href} href={link.href} onClick={() => setOpen(false)}>{link.label}</Link>)}
       </nav>
+      <ThemeToggle />
       <a className="nav-cta" href="https://sentecneduet.live/login">Login <ArrowUpRight size={14} /></a>
       <button className="nav-menu-button" aria-label={open ? "Close navigation" : "Open navigation"} onClick={() => setOpen((value) => !value)}>
         {open ? <X size={20} /> : <Menu size={20} />}
@@ -39,11 +45,13 @@ export function SiteNav() {
 }
 
 export function SiteFooter() {
+  const { theme } = useTheme();
+  const activeLogo = theme === "light" ? lightLogoAsset : logoAsset;
   return (
     <footer className="site-footer secondary-footer">
       <div className="footer-top">
         <div>
-          <Link href="/" className="brand-lockup footer-brand-lockup"><img src={logoAsset} alt="" /><span>SENTEC<span className="brand-dot">.</span></span></Link>
+          <Link href="/" className="brand-lockup footer-brand-lockup"><img src={activeLogo} alt="" /><span>SENTEC<span className="brand-dot">.</span></span></Link>
           <p>The Society for Promotion of Science, Engineering and Technology at NED University.</p>
         </div>
         <div className="footer-links">

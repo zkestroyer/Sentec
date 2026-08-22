@@ -59,3 +59,9 @@ Use the provided geometric mark as the visual anchor, paired with a custom-space
 
 ### Signature Brand Color
 Signal Orange — `#F15A24`.
+
+## Style Decisions
+
+- The light theme is a **drafting-table relief plane**, not a separate generic site. Keep dark instrument fields prominent in the hero, project panels, exact-logo module, and imagery.
+- Every route carries one structural calibration cue: an orange signal line, measured tick strip, orbit fragment, bracket, or coordinate label.
+- Portraits and visual archive cards use consistent dark technical overlays, restrained orange metadata, and deliberate crops so external media stays inside the SENTEC system.
