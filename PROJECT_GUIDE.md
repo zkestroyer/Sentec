@@ -1,17 +1,17 @@
-# SENTEC Website — Project Guide
+# SENTEC Website Project Guide
 
-> **Purpose:** This guide is the practical map for editing the SENTEC website. The project is a React 19 + Vite frontend using a shared dark **Signal / Structure** visual system, an exact supplied SENTEC logo asset, responsive layouts, and motion that respects reduced-motion preferences.
+> **Purpose:** This guide is the practical map for editing the SENTEC website. The project is a React 19 + Vite frontend with a dark-default **Signal / Structure** visual language, a persistent clinical light mode, exact supplied SENTEC logo artwork, responsive public navigation, and motion that honors reduced-motion preferences.
 
-## 1. Quick Start
+## 1. Development Commands
+
+Run all commands from the project root.
 
 | Task | Command | Notes |
 |---|---|---|
-| Run locally | `pnpm dev` | Starts the Vite development server. |
+| Start the development server | `pnpm dev` | Runs Vite with host access. |
 | Check TypeScript | `pnpm check` | Runs `tsc --noEmit`. |
-| Create a production build | `pnpm build` | Builds the client bundle and production server output. |
-| Format files | `pnpm format` | Runs Prettier across the project. |
-
-Run the commands from the repository root:
+| Create a production build | `pnpm build` | Builds the browser bundle and production server entry. |
+| Format source files | `pnpm format` | Runs Prettier across the project. |
 
 ```bash
 cd sentec-landing-redesign
@@ -23,184 +23,141 @@ pnpm dev
 ```text
 sentec-landing-redesign/
 ├── client/
-│   ├── index.html                 # Document title, fonts, root mount point
+│   ├── index.html                         # Document title, fonts, and mount point
 │   └── src/
-│       ├── App.tsx                # Route table for every public page
-│       ├── index.css              # Global design tokens, responsive styles, animations
-│       ├── pages/
-│       │   ├── Home.tsx           # Landing page and exact-logo hero animation stack
-│       │   ├── Team.tsx           # Team directory, filters, supplied roster
-│       │   ├── Events.tsx         # Events destination and empty calendar state
-│       │   ├── Partners.tsx       # Honest partner register / partnership CTA
-│       │   ├── Gallery.tsx        # Filterable visual archive cards
-│       │   └── Contact.tsx        # Contact details and client-side form UI
-│       └── components/
-│           └── SiteChrome.tsx     # Shared navbar, footer, and secondary-page hero shell
-├── server/
-│   └── index.ts                   # Static production-serving entry point
-├── PROJECT_GUIDE.md               # This editing guide
-├── package.json                   # Scripts and dependencies
-└── vite.config.ts                 # Vite configuration
+│       ├── App.tsx                        # Wouter routes and dark-default ThemeProvider
+│       ├── index.css                      # Tokens, themes, responsive layout, and animation
+│       ├── contexts/
+│       │   └── ThemeContext.tsx            # Persistent light/dark preference
+│       ├── components/
+│       │   ├── SiteChrome.tsx              # Shared nav, footer, and secondary-page shell
+│       │   └── ThemeToggle.tsx             # Accessible theme switch control
+│       └── pages/
+│           ├── Home.tsx                    # Landing page and exact-logo hero animation stack
+│           ├── Team.tsx                    # Team directory and filters
+│           ├── Events.tsx                  # Events destination and honest empty state
+│           ├── Partners.tsx                # Partner destination and honest empty state
+│           ├── Gallery.tsx                 # Filterable visual archive cards
+│           └── Contact.tsx                 # Contact information and presentational form
+├── server/index.ts                         # Static production-serving entry point
+├── PROJECT_GUIDE.md                        # This implementation guide
+├── ideas.md                                # Chosen design direction and non-negotiable rules
+├── package.json                            # Scripts and dependencies
+└── vite.config.ts                          # Vite configuration
 ```
 
-## 3. Routes and Navigation
+## 3. Routes and Public Navigation
 
-The route table lives in `client/src/App.tsx`. Use this file whenever a new page needs a URL.
+`client/src/App.tsx` contains the route table. The same public link set must be maintained in the home-page navigation inside `pages/Home.tsx` and the reusable navigation in `components/SiteChrome.tsx`.
 
-| Navbar label | URL | Source file | Editing notes |
+| Label | URL | Primary file | Editing guidance |
 |---|---|---|---|
 | Home | `/` | `pages/Home.tsx` | Landing page and hero. |
 | About | `/#about` | `pages/Home.tsx` | Homepage section anchor. |
-| Team | `/team` | `pages/Team.tsx` | Supplied leadership/directory data. |
-| Events | `/events` | `pages/Events.tsx` | Add confirmed events here. |
-| Partners | `/partners` | `pages/Partners.tsx` | Add confirmed partner records here. |
-| Gallery | `/gallery` | `pages/Gallery.tsx` | Replace archive cards with real event media. |
-| Contact Us | `/contact` | `pages/Contact.tsx` | Connect the form to a form service or backend. |
-| Login | External link | `components/SiteChrome.tsx`, `pages/Home.tsx` | Currently points to `https://sentecneduet.live/login`. |
+| Team | `/team` | `pages/Team.tsx` | Supplied leadership and member data. |
+| Events | `/events` | `pages/Events.tsx` | Add confirmed event records only. |
+| Partners | `/partners` | `pages/Partners.tsx` | Add approved partner information and marks only. |
+| Gallery | `/gallery` | `pages/Gallery.tsx` | Replace archive placeholders with approved media. |
+| Contact Us | `/contact` | `pages/Contact.tsx` | Connect the form before treating it as live. |
+| Login | External destination | `Home.tsx`, `SiteChrome.tsx` | Keep both existing links synchronized. |
 
-The shared navigation for **Team, Events, Partners, Gallery, and Contact** is defined in `client/src/components/SiteChrome.tsx`. The home page has its own navigation markup in `client/src/pages/Home.tsx`, so update both places when changing the public tab set.
+At narrow widths, the public links remain visible as a compact wrapped navigation grid rather than being replaced by a hamburger-only menu.
 
-## 4. Design System
+## 4. Theme System
 
-The site’s visual language is defined in `client/src/index.css`.
+`ThemeProvider` in `App.tsx` starts the site in dark mode and permits switching. `ThemeContext.tsx` applies the `.dark` class to the root document and saves the chosen preference locally. `ThemeToggle.tsx` is used in the home navigation and the shared page shell.
 
-| System element | Direction | Where to edit |
-|---|---|---|
-| Base surface | Near-black engineering field with subtle grid texture | `:root`, `.secondary-page`, `.site-shell` |
-| Accent | Signal orange (`--orange`) used for active paths, rules, controls, and important data | Root color variables |
-| Body type | Readable technical sans | Font setup in `client/index.html` and global CSS |
-| Technical labels | `IBM Plex Mono` with uppercase letter spacing | `.eyebrow`, `.section-kicker`, metadata classes |
-| Display type | Editorial high-impact heading style | Heading rules in `index.css` |
-| Borders | Thin, low-contrast system lines | `--line` and card/section styles |
+| Theme | Intent | Exact logo asset | Implementation area |
+|---|---|---|---|
+| Dark, default | Near-black engineering field with restrained steel-blue detail and ember-orange signals | `SENTECNEWWHITELOGO_2ba86ec2.webp` | Base CSS and `.dark` rules |
+| Clinical light | Cool sky-blue drafting surface with deep navy text/panels and the same ember-orange signal | `SENTECNEWLOGO_b206fe12.webp` | `html:not(.dark)` overrides |
 
-> **Editing principle:** Do not add unrelated gradients, rounded-card systems, or bright colors. New components should reinforce the dark editorial engineering atmosphere and reserve orange for active signals.
+> **Theme rule:** Light mode is a lighter technical interface, not a blank white reskin. Keep its texture, navy engineering surfaces, orange accent, and full public navigation intact.
 
-## 5. Exact SENTEC Logo and Hero Animation
+## 5. Exact SENTEC Logo and Hero
 
-The original supplied logo is the visual source of truth. Its asset is referenced as:
+The original supplied logo artwork is the source of truth. It is referenced in `pages/Home.tsx` as theme-aware assets.
 
 ```ts
 const logoAsset = "/manus-storage/SENTECNEWWHITELOGO_2ba86ec2.webp";
+const lightLogoAsset = "/manus-storage/SENTECNEWLOGO_b206fe12.webp";
 ```
 
-The hero markup lives in `pages/Home.tsx`, primarily inside `AnimatedMark()`.
+`AnimatedMark()` renders a base image and registered duplicate image layers. The layers use clipped regions to animate individual areas while preserving the supplied source geometry. The animation must never reconstruct or manually reposition the logo’s internal illustration.
 
-### How the animation works
-
-The logo is **not redrawn from loose coordinates**. Multiple perfectly registered image layers use the exact original artwork, clipped to highlight regions while keeping all geometry fixed.
-
-| Layer group | Motion behavior | CSS area |
+| Layer group | Current role | Main CSS selectors |
 |---|---|---|
-| Base artwork | Establishes the full logo and subtle breathing | `.reference-logo-base` |
-| Global scan | Reveals the artwork through an aligned scan | `.layer-scan` |
-| Frame / upper / core / wordmark | Staged system activation | `.layer-frame`, `.layer-upper`, `.layer-core`, `.layer-wordmark` |
-| Bolt, bridge, tower, sensor, monitor, flask, gears | Independent aligned element highlights | `.element-*` selectors |
-| Signal beam | Horizontal signal pass | `.mark-sweep` |
+| Base artwork | Holds the complete, exact logo in its native portrait composition | `.reference-logo-base`, `.reference-logo` |
+| Scan and activation groups | Reveal the overall artwork in stages | `.layer-scan`, `.layer-frame`, `.layer-upper`, `.layer-core`, `.layer-wordmark` |
+| Individual details | Highlight the bolt, bridge, tower, sensor, monitor, flask, gears, and core in place | `.element-*` |
+| Signal pass | Provides the horizontal engineering pulse | `.mark-sweep` |
 
-To change the logo timing, adjust the **8-second keyframes** named `reference-*` and `element-*` in `index.css`. Avoid changing the `clip-path` regions unless you are deliberately refining a specific logo element’s highlight area. The image layers must always stay `width: 100%`, `height: 100%`, and use the same `object-fit`/`object-position` values to preserve alignment.
+### Hero placement rule
 
-## 6. Shared Page Shell
+The final hero intentionally has **no added square field, circular halo, clipped instrument frame, or separate backing shape behind the logo**. The exact artwork is presented unframed over the existing hero texture in its native portrait aspect ratio. Do not reintroduce independent background geometry behind the artwork unless the design direction is explicitly changed.
 
-`components/SiteChrome.tsx` contains three reusable pieces:
+When adjusting the hero, keep `mark-stage`, `reference-logo-stack`, and every duplicate image layer on the same scale and `object-fit: contain` logic. This preserves the position of the logo illustration, wordmark, and animated clipped regions together.
+
+## 6. Design System
+
+Most styling lives in `client/src/index.css`.
+
+| Element | Direction | Where to edit |
+|---|---|---|
+| Base surfaces | Ink-black technical field in dark mode; cool sky drafting plane in light mode | Root variables and theme blocks |
+| Accent | Signal orange (`--orange`) for active paths, rules, controls, and key data | Root variables and component selectors |
+| Technical labels | Uppercase `IBM Plex Mono` with calibrated spacing | Eyebrow, metadata, and navigation selectors |
+| Display type | Tight, high-impact editorial heading treatment | Heading rules in `index.css` |
+| Structural detail | Thin system lines, ticks, brackets, and background texture | Section, card, and hero styles |
+
+> **Editing principle:** Do not add unrelated gradients, generic rounded-card systems, or arbitrary bright colors. New work should reinforce the editorial engineering atmosphere and reserve orange for active signals.
+
+## 7. Shared Page Shell and Content Areas
+
+`components/SiteChrome.tsx` provides the shared page shell.
 
 | Component | Responsibility |
 |---|---|
-| `SiteNav` | All public tabs, desktop/mobile menu state, logo lockup, and Login link. |
-| `SiteFooter` | Shared footer links and SENTEC base contact details. |
-| `SecondaryPage` | Secondary page hero composition and common viewport-triggered reveal behavior. |
+| `SiteNav` | Public links, theme toggle, logo lockup, and Login link. |
+| `SiteFooter` | Shared footer navigation and base contact details. |
+| `SecondaryPage` | Shared secondary-page hero and section-reveal behavior. |
 
-Every secondary route should be wrapped like this:
+Secondary routes should be wrapped with `SecondaryPage` so they inherit the page rhythm and motion system.
 
-```tsx
-return (
-  <SecondaryPage
-    eyebrow="SECTION / LABEL"
-    title="Primary"
-    accent="accent."
-    intro="One concise paragraph describing the page."
-  >
-    <section className="secondary-section">...</section>
-  </SecondaryPage>
-)
-```
+| Page | Current implementation | Safe next change |
+|---|---|---|
+| Team | Supplied member roster with categories and external profile links | Edit the local member data array. |
+| Events | Honest empty state | Add confirmed dates, titles, registration URLs, and approved media. |
+| Partners | Honest partner placeholder | Add approved partner details and logo files. |
+| Gallery | Filterable archive records | Replace placeholders with real approved photographs and captions. |
+| Contact | Presentational form that prevents submission | Connect a validated backend or hosted form endpoint. |
 
-## 7. Page-Specific Editing
+## 8. Responsive Behavior and Motion
 
-### Team
+Responsive styling is centralized in `index.css`, principally in the `@media (max-width: 900px)`, `@media (max-width: 700px)`, and `@media (max-width: 560px)` blocks. Test at approximately 375–390px wide and again at 1280px wide whenever navigation, the hero, or section layout changes.
 
-The supplied team roster is held in the `members` array in `pages/Team.tsx`.
+The landing copy leads on mobile, followed by the unframed exact-logo composition. Gallery records become single-column; team entries become compact horizontal records; forms and section spacing tighten while preserving hierarchy.
 
-```ts
-["Name", "Role", "Category", "image-file.webp", "https://linkedin.com/in/..."],
-```
+The shared `.motion-reveal` class drives section entrances. Hero motion is limited to source-registered image-layer reveals, a restrained whole-mark rhythm, and the horizontal signal pass. The final `prefers-reduced-motion` block makes content visible and stops nonessential looping; preserve that behavior whenever motion is edited.
 
-The image base URL is configured once at the top of the file. Add or update a member by editing one row. Use an empty LinkedIn string only if no URL is available. On narrow phones, cards switch to readable horizontal records automatically.
+## 9. Asset Policy
 
-### Events
+The site uses durable `/manus-storage/...` URLs for visual assets. Keep large images and media outside `client/public`, upload them through the established asset workflow, and reference the returned storage URL in source.
 
-`pages/Events.tsx` intentionally uses an honest empty state. Replace it with confirmed event records, dates, registration URLs, and images. Do not publish invented event details.
-
-### Partners
-
-`pages/Partners.tsx` also uses transparent current/past partner placeholders. Replace them only with confirmed partnership information and approved logos.
-
-### Gallery
-
-`pages/Gallery.tsx` uses a `records` array to build filterable archive cards. Replace the graphical archive fields with real photographs and captions when assets are available. Keep one record object per item so filtering remains simple.
-
-### Contact
-
-`pages/Contact.tsx` contains the presentational form. It currently calls `event.preventDefault()` so it does not submit anywhere. Connect the form to a validated backend or hosted form endpoint before treating it as live.
-
-## 8. Responsive Rules
-
-Mobile styling is centralized in `index.css` under the `@media (max-width: 700px)`, `@media (max-width: 560px)`, and `@media (max-width: 900px)` blocks.
-
-Key mobile decisions are deliberate:
-
-- Navigation collapses into a menu button, with the full public tab set inside the menu.
-- The landing copy leads, followed by a scaled exact-logo composition that remains visible above the fold.
-- Gallery cards become single-column visual records.
-- Team members become one-column horizontal records under 560px for readable names and roles.
-- Forms, filters, page headers, and footers use reduced padding without losing hierarchy.
-
-Test changes at **390px wide** as a baseline phone viewport and again at **1280px wide** for desktop.
-
-## 9. Motion and Accessibility
-
-The common section-entry class is `.motion-reveal`. It is activated by `IntersectionObserver` on the home page and by `SecondaryPage` for secondary routes.
-
-| Motion | Use |
+| Asset | Purpose |
 |---|---|
-| `motion-reveal` | Page and section entrance: opacity + short upward movement. |
-| `field-rise` | Staggered cards and domain rows after a section enters. |
-| `logo-system-breathe` | Quiet full-logo rhythm that supports the exact-logo activation sequence. |
-| Element keyframes | Individual logo symbol highlights, without moving source geometry. |
+| `SENTECNEWWHITELOGO_2ba86ec2.webp` | Exact dark-mode SENTEC artwork. |
+| `SENTECNEWLOGO_b206fe12.webp` | Exact clinical-light-mode SENTEC artwork. |
+| `sentec-hero-texture_fbda6e33.png` | Home hero technical texture. |
+| `sentec-about-texture_326034d4.png` | About-section atmosphere. |
+| `sentec-project-texture_223a946e.png` | Project-section atmosphere. |
 
-The final `prefers-reduced-motion` rules force content visible and stop nonessential looping. Keep this behavior when introducing new motion.
+## 10. Safe Editing and Repository Workflow
 
-## 10. Asset Policy
+Make focused changes, then run `pnpm check` and `pnpm build`. Inspect the affected route on desktop and mobile before saving a checkpoint. For navigation changes, update both navigation implementations; for new routes, add the page under `pages/` and register it in `App.tsx`.
 
-The project references durable web assets through `/manus-storage/...` URLs. Keep new large images and media outside `client/public` and add them through the established asset upload workflow. Do not place large media files inside the project source tree.
+The connected source repository is [`zkestroyer/Sentec`](https://github.com/zkestroyer/Sentec). When synchronizing code, include source files and these two durable project documents, but exclude `node_modules`, `dist`, `.manus-logs`, temporary task notes, and project-local runtime configuration.
 
-| Existing asset | Purpose |
-|---|---|
-| `SENTECNEWWHITELOGO_2ba86ec2.webp` | Exact supplied SENTEC identity artwork. |
-| `sentec-hero-texture_fbda6e33.png` | Home hero background. |
-| `sentec-about-texture_326034d4.png` | About section atmosphere. |
-| `sentec-project-texture_223a946e.png` | Projects section atmosphere. |
+## 11. Current Follow-Ups
 
-## 11. Safe Editing Workflow
-
-1. Make a small edit in the appropriate page or shared component.
-2. Adjust matching styling in `client/src/index.css` only when needed.
-3. Run `pnpm check`.
-4. Run `pnpm build`.
-5. Test the relevant route on desktop and mobile.
-6. Commit with a clear, focused message.
-
-For navigation edits, update **both** `SiteChrome.tsx` and the homepage navigation in `Home.tsx`. For new pages, add the component under `pages/`, then register its path in `App.tsx`.
-
-## 12. Current Known Follow-Ups
-
-The project is ready for content updates. The next practical changes are to replace Gallery archive placeholders with real event media, populate Events and Partners with confirmed records, and connect the Contact form to a real submission service.
+The implementation is ready for content work. The highest-value next steps are replacing Gallery placeholders with approved project imagery, adding confirmed Events and Partners records, and connecting the Contact form to an actual submission workflow.
