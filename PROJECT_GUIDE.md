@@ -142,7 +142,7 @@ The shared `.motion-reveal` class drives section entrances. Hero motion is limit
 
 ## 9. Asset Policy
 
-The site uses durable `/manus-storage/...` URLs for visual assets. Keep large images and media outside `client/public`, upload them through the established asset workflow, and reference the returned storage URL in source.
+The site uses durable `/manus-storage/...` URLs for visual assets. Keep large images and media outside `client/public`, upload them through the established asset workflow, and reference the returned storage URL in source. The connected GitHub repository also includes an `assets/` directory with source-reference copies and a manifest; these copies make the artwork visible to collaborators but do not replace the hosted runtime paths.
 
 | Asset | Purpose |
 |---|---|
