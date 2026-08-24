@@ -5,7 +5,10 @@
   "license": "MIT",
   "scripts": {
     "dev": "vite --host",
+    "assets:local": "node scripts/prepare-local-assets.mjs",
+    "dev:local": "pnpm assets:local && vite --host --mode localhost",
     "build": "vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
+    "build:local": "pnpm assets:local && vite build --mode localhost && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
     "start": "NODE_ENV=production node dist/index.js",
     "preview": "vite preview --host",
     "check": "tsc --noEmit",

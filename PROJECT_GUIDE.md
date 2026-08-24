@@ -142,7 +142,9 @@ The shared `.motion-reveal` class drives section entrances. Hero motion is limit
 
 ## 9. Asset Policy
 
-The site uses durable `/manus-storage/...` URLs for visual assets. Keep large images and media outside `client/public`, upload them through the established asset workflow, and reference the returned storage URL in source. The connected GitHub repository also includes an `assets/` directory with source-reference copies and a manifest; these copies make the artwork visible to collaborators but do not replace the hosted runtime paths.
+The standard managed preview uses durable `/manus-storage/...` URLs for visual assets. The connected GitHub repository also includes an `assets/` directory with the exact source files and a manifest. `client/src/lib/assets.ts` selects hosted URLs by default and switches to local `/assets/...` URLs when `VITE_ASSET_MODE=local` is enabled.
+
+For a normal local or self-hosted build, run `pnpm dev:local` or `pnpm build:local`. Those commands copy the tracked root-level `assets/` directory into Vite’s generated public directory before serving or building. See [`LOCAL_HOSTING.md`](./LOCAL_HOSTING.md) for the complete workflow. Do not commit the generated `client/public/assets/` directory.
 
 | Asset | Purpose |
 |---|---|
@@ -156,7 +158,7 @@ The site uses durable `/manus-storage/...` URLs for visual assets. Keep large im
 
 Make focused changes, then run `pnpm check` and `pnpm build`. Inspect the affected route on desktop and mobile before saving a checkpoint. For navigation changes, update both navigation implementations; for new routes, add the page under `pages/` and register it in `App.tsx`.
 
-The connected source repository is [`zkestroyer/Sentec`](https://github.com/zkestroyer/Sentec). When synchronizing code, include source files and these two durable project documents, but exclude `node_modules`, `dist`, `.manus-logs`, temporary task notes, and project-local runtime configuration.
+The connected source repository is [`zkestroyer/Sentec`](https://github.com/zkestroyer/Sentec). When synchronizing code, include source files, the tracked root-level `assets/` directory, and the durable project documents, but exclude `node_modules`, `dist`, `.manus-logs`, generated `client/public/assets/`, temporary task notes, and project-local runtime configuration.
 
 ## 11. Current Follow-Ups
 

@@ -8,9 +8,10 @@ import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { useTheme } from "@/contexts/ThemeContext";
+import { siteAssets } from "@/lib/assets";
 
-const logoAsset = "/manus-storage/SENTECNEWWHITELOGO_2ba86ec2.webp";
-const lightLogoAsset = "/manus-storage/SENTECNEWLOGO_b206fe12.webp";
+const logoAsset = siteAssets.darkLogo;
+const lightLogoAsset = siteAssets.lightLogo;
 
 const links = [
   { label: "Home", href: "/" },

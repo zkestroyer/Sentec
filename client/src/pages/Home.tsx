@@ -7,12 +7,13 @@ import { useEffect, useState } from "react";
 import { ArrowDownRight, ArrowUpRight, ChevronRight, Cpu, FlaskConical, Gauge, Menu, Radio, X } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { useTheme } from "@/contexts/ThemeContext";
+import { siteAssets } from "@/lib/assets";
 
-const logoAsset = "/manus-storage/SENTECNEWWHITELOGO_2ba86ec2.webp";
-const lightLogoAsset = "/manus-storage/SENTECNEWLOGO_b206fe12.webp";
-const heroTexture = "/manus-storage/sentec-hero-texture_fbda6e33.png";
-const aboutTexture = "/manus-storage/sentec-about-texture_326034d4.png";
-const projectTexture = "/manus-storage/sentec-project-texture_223a946e.png";
+const logoAsset = siteAssets.darkLogo;
+const lightLogoAsset = siteAssets.lightLogo;
+const heroTexture = siteAssets.heroTexture;
+const aboutTexture = siteAssets.aboutTexture;
+const projectTexture = siteAssets.projectTexture;
 
 const navItems = [{ label: "Home", href: "#home" }, { label: "About", href: "#about" }, { label: "Team", href: "/team" }, { label: "Events", href: "/events" }, { label: "Partners", href: "/partners" }, { label: "Gallery", href: "/gallery" }, { label: "Contact Us", href: "/contact" }];
 const orbitNodes = [
